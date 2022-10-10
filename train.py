@@ -26,7 +26,7 @@ if __name__ == "__main__":
     learning_rate = 1e-4
     criterion = torch.nn.CrossEntropyLoss
     optimizer = Adam(params=model.parameters(), lr=learning_rate)
-    experiment_name = f"{model.model_backbone}_experiment"
+    experiment_name = f"{model.model_backbone}_experiment_1"
 
     train_dl, val_dl, test_dl = dataloaders(train_dir,
                                             val_dir,
