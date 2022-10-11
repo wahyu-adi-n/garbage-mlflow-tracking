@@ -8,7 +8,7 @@ from data.data_lib import *
 
 if __name__ == "__main__":
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    create_data = create_dir_extract()
+    create_dir_extract()
     # split_data = split_data('data/dataset/garbage', 'data/dataset/output')
 
     train_dir = 'data/dataset/output/train'

@@ -1,3 +1,4 @@
+import os
 import time
 import torch
 import mlflow
@@ -96,19 +97,22 @@ def train(model: torch.nn.Module,
                 'val_loss': val_loss,
                 'val_acc': val_accuracy,
             }, step=epoch)
-            mlflow.pytorch.log_state_dict(model.state_dict(),
-                                          f"{model_path}/weights_epoch_{epoch}.pt")
+      
         end_time = timer()
         test_loss, test_accuracy = val_step(model=model,
                                             dataloader=test_dataloader,
                                             loss_fn=loss_fn,
                                             device=device)
-        mlflow.pytorch.log_model(model, "model")
         mlflow.log_metrics({
             "test_loss": test_loss,
             "test_accuracy": test_accuracy,
             "time": end_time - start_time
         })
-
+        
         mlflow.log_params(parameters)
+        
+        mlflow.pytorch.log_state_dict(model.state_dict(),'final_state_dict')
+        mlflow.pytorch.log_model(model, 'final_model')
+        mlflow.log_artifact(model_path, 'data_artifact')
+
         mlflow.end_run()
