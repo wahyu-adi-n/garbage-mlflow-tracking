@@ -14,7 +14,7 @@ def train_step(model: torch.nn.Module,
     model.train()
     train_loss, train_acc = 0, 0
 
-    for batch, (X, y) in enumerate(dataloader):
+    for _, (X, y) in enumerate(dataloader):
         X, y = X.to(device), y.to(device)
         y_pred = model(X)
         loss = loss_fn()(y_pred, y)
@@ -103,7 +103,7 @@ def train(model: torch.nn.Module,
                                             dataloader=test_dataloader,
                                             loss_fn=loss_fn,
                                             device=device)
-        mlflow.pytorch.log_model(model, "Model")
+        mlflow.pytorch.log_model(model, "model")
         mlflow.log_metrics({
             "test_loss": test_loss,
             "test_accuracy": test_accuracy,

@@ -1,53 +1,52 @@
 import os
 import torch
 from torchinfo import summary
-from pathlib import Path
+from torch.optim import Adam
 from models.GarbageEffNetModelV0 import GarbageEffNetModelV0
 from utils.training import *
 from data.data_lib import *
-from torch.optim import Adam
 
 if __name__ == "__main__":
     device = "cuda" if torch.cuda.is_available() else "cpu"
-
     create_data = create_dir_extract()
     split_data = split_data('data/dataset/garbage', 'data/dataset/output')
 
-    # train-val-test dir
     train_dir = 'data/dataset/output/train'
     val_dir = 'data/dataset/output/val'
     test_dir = 'data/dataset/output/test'
 
-    # hyperparameter
-    batch_size = 32
-    test_batch_size = 16
     model = GarbageEffNetModelV0()
     summary(model)
-    num_epochs = 10
-    learning_rate = 1e-4
-    criterion = torch.nn.CrossEntropyLoss
-    optimizer = Adam(params=model.parameters(), lr=learning_rate)
-    experiment_name = f"{model.model_backbone}_experiment_0"
-    num_cpu_workers = os.cpu_count()
 
-    train_dl, val_dl, test_dl = dataloaders(train_dir,
-                                            val_dir,
-                                            test_dir,
+    # hyperparameter
+    batch_size = 32
+    test_batch_size = 32
+    num_epochs = 20
+    learning_rate = 1e-4
+    loss_fn = torch.nn.CrossEntropyLoss
+    num_cpu_workers = os.cpu_count()
+    optimizer = Adam(params=model.parameters(), lr=learning_rate)
+    experiment_name = f"experiment_{model.model_backbone}_1"
+
+    train_dl, val_dl, test_dl = dataloaders(train_dir=train_dir,
+                                            val_dir=val_dir,
+                                            test_dir=test_dir,
                                             batch_size=batch_size,
-                                            test_batch_size=test_batch_size)
+                                            test_batch_size=test_batch_size,
+                                            num_cpu_workers=num_cpu_workers)
 
     parameters = {
         'dataset_version': 'v1.0',
-        'epochs': num_epochs,
-        'lr': learning_rate,
-        'criterion': criterion,
+        'device': device,
         'model': model.model_backbone,
         'num_classes': model.num_classes,
-        'optimizer_name': 'Adam',
+        'num_cpu_workers': num_cpu_workers,
         'batch_size': batch_size,
         'test_batch_size': test_batch_size,
-        'device': device,
-        'num_cpu_workers': num_cpu_workers
+        'epochs': num_epochs,
+        'lr': learning_rate,
+        'loss_fn': loss_fn,
+        'optimizer_name': optimizer
     }
 
     train(model, train_dl, val_dl, test_dl,
@@ -56,6 +55,7 @@ if __name__ == "__main__":
           device=device,
           epochs=parameters['epochs'],
           optimizer=optimizer,
-          loss_fn=criterion,
+          loss_fn=loss_fn,
           parameters=parameters)
+
     print("Training End!")

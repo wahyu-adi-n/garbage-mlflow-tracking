@@ -54,7 +54,7 @@ def create_dir_extract():
             zip_reff.extractall(image_path)
 
 
-def split_data(input_dir, out_dir, seed=42):
+def split_data(input_dir, out_dir, seed=12):
     spf.ratio(input=input_dir,
               output=out_dir,
               seed=seed,
@@ -67,57 +67,54 @@ def augment_data(mean=[0.485, 0.456, 0.406],
     train_transform = T.Compose([
         T.Resize(size=(256, 256)),
         T.CenterCrop(size=(224, 224)),
-        T.RandomHorizontalFlip(0.25),
-        T.RandomVerticalFlip(0.25),
+        T.RandomHorizontalFlip(0.3),
         T.ToTensor(),
         T.Normalize(mean=mean, std=std)
     ])
 
-    val_transform = T.Compose([
+    val_test_transform = T.Compose([
         T.Resize(size=(256, 256)),
         T.CenterCrop(size=(224, 224)),
         T.ToTensor(),
         T.Normalize(mean=mean, std=std)
     ])
-
-    test_transform = T.Compose([
-        T.Resize(size=(256, 256)),
-        T.CenterCrop(size=(224, 224)),
-        T.ToTensor(),
-        T.Normalize(mean=mean, std=std)
-    ])
-
-    return train_transform, val_transform, test_transform
+    return train_transform, val_test_transform
 
 
 def dataloaders(train_dir: str,
                 val_dir: str,
                 test_dir: str,
                 batch_size: int,
-                test_batch_size: int):
-    train_transform, val_transform, test_transform = augment_data()
-    train_data = GarbageCustomDataset(target_dir=train_dir,
-                                      transform=train_transform)
+                test_batch_size: int,
+                num_cpu_workers: int):
 
-    val_data = GarbageCustomDataset(target_dir=val_dir,
-                                    transform=test_transform)
+    train_transform, transform = augment_data()
 
-    test_data = GarbageCustomDataset(target_dir=test_dir,
-                                     transform=test_transform)
+    train_data = GarbageCustomDataset(
+        target_dir=train_dir,
+        transform=train_transform)
+
+    val_data = GarbageCustomDataset(
+        target_dir=val_dir,
+        transform=transform)
+
+    test_data = GarbageCustomDataset(
+        target_dir=test_dir,
+        transform=transform)
 
     train_dl = DataLoader(dataset=train_data,
                           batch_size=batch_size,
-                          num_workers=os.cpu_count(),
+                          num_workers=num_cpu_workers,
                           shuffle=True)
 
     val_dl = DataLoader(dataset=val_data,
                         batch_size=test_batch_size,
-                        num_workers=os.cpu_count(),
+                        num_workers=num_cpu_workers,
                         shuffle=False)
 
     test_dl = DataLoader(dataset=test_data,
                          batch_size=test_batch_size,
-                         num_workers=os.cpu_count(),
+                         num_workers=num_cpu_workers,
                          shuffle=False)
 
     return train_dl, val_dl, test_dl

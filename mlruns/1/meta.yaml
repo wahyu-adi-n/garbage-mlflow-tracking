@@ -1,4 +1,0 @@
-artifact_location: file:///home/intern-wahyu/garbage-mlflow-tracking/mlruns/1
-experiment_id: '1'
-lifecycle_stage: active
-name: efficientnet_b0_experiment_0

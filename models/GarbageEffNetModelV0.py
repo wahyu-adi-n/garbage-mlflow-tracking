@@ -9,11 +9,11 @@ class GarbageEffNetModelV0(nn.Module):
         self.model_backbone = 'efficientnet_b0'
         self.pretrained = pretrained
         self.classifier_layer = torch.nn.Sequential(
-            torch.nn.Linear(1280, 256),
+            torch.nn.Linear(1280, 512),
             torch.nn.Dropout(0.5),
-            torch.nn.Linear(256, 128),
+            torch.nn.Linear(512, 256),
             torch.nn.Dropout(0.5),
-            torch.nn.Linear(128, num_classes)
+            torch.nn.Linear(256, num_classes)
         )
         self.num_classes = num_classes
 

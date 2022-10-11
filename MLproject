@@ -4,5 +4,8 @@ conda_env: conda.yaml
 
 entry_points:
   main:
+    # parameters:
+    #   config: {type str, default: config.yaml}
     command: |
-          python3 train.py
+          python train.py
+#--config {config}

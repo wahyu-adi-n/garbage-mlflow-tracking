@@ -1,0 +1,11 @@
+datamodule:
+  train_dataset_dir: data/dataset/output/train
+  val_dataset_dir: data/dataset/output/val
+  test_dataset_dir: data/dataset/output/test
+  batch_size: 32
+  test_batch_size: 32
+  num_workers: 8
+  image_size: [256,256]
+trainer:
+  num_epochs: 5
+  save_dir: models
