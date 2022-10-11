@@ -5,7 +5,7 @@ from torch import nn
 
 class GarbageRes50NetModelV0(nn.Module):
     def __init__(self,
-                 pretrained=models.resnet50(weights='IMAGENET1K_V1'), num_classes=5):
+                 pretrained=models.resnet50(weights="IMAGENET1K_V2"), num_classes=5):
         super(GarbageRes50NetModelV0, self).__init__()
         self.model_backbone = 'resnet_50'
         self.pretrained = pretrained
