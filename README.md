@@ -29,43 +29,5 @@ and navigating to [http://localhost:5000](http://localhost:5000).
 
 For more details on MLflow tracking, see [the docs](https://www.mlflow.org/docs/latest/tracking.html#mlflow-tracking).
 
-### Passing custom training parameters
-
-The parameters can be overridden via the command line:
-
-1. max_epochs - Number of epochs to train model. Training can be interrupted early via Ctrl+C
-2. devices - Number of GPUs.
-3. strategy - [strategy](https://pytorch-lightning.readthedocs.io/en/stable/common/trainer.html#trainer-class-api) (e.g. "ddp" for the Distributed Data Parallel backend) to use for training. By default, no strategy is used.
-4. accelerator - [accelerator](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch_lightning.accelerators.Accelerator.html#pytorch_lightning.accelerators.Accelerator) (e.g. "gpu" - for running in GPU environment. Set to "cpu" by default)
-5. batch_size - Input batch size for training
-6. num_workers - Number of worker threads to load training data
-7. lr - Learning rate
-8. patience -parameter of early stopping
-9. mode - parameter of early stopping
-10. monitor - parameter of early stopping
-11.verbose - parameter of early stopping
-
-For example:
-```
-mlflow run . -P max_epochs=5 -P gpus=1 -P batch_size=32 -P num_workers=2 -P learning_rate=0.01 -P strategy="ddp" -P patience=5 -P mode="min" -P monitor="val_loss" -P verbose=True
-```
-
-
-Or to run the training script directly with custom parameters:
-```
-python mnist_autolog_example.py \
-    --max_epochs 5 \
-    --devices 1 \
-    --strategy "ddp" \
-    --accelerator "gpu" \
-    --batch_size 64 \
-    --num_workers 3 \
-    --lr 0.001 \
-    --es_patience 5 \
-    --es_mode "min" \
-    --es_monitor "val_loss" \
-    --es_verbose True
-```
-
 ## Logging to a custom tracking server
 To configure MLflow to log to a custom (non-default) tracking location, set the MLFLOW_TRACKING_URI environment variable, e.g. via export MLFLOW_TRACKING_URI=http://localhost:5000/. For more details, see [the docs](https://mlflow.org/docs/latest/tracking.html#where-runs-are-recorded).
