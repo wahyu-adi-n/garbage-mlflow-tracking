@@ -23,7 +23,7 @@ if __name__ == "__main__":
     test_batch_size = 16
     model = GarbageEffNetModelV0()
     summary(model)
-    num_epochs = 5
+    num_epochs = 10
     learning_rate = 1e-4
     criterion = torch.nn.CrossEntropyLoss
     optimizer = Adam(params=model.parameters(), lr=learning_rate)
