@@ -21,7 +21,7 @@ if __name__ == "__main__":
     # hyperparameter
     batch_size = 32
     test_batch_size = 32
-    num_epochs = 20
+    num_epochs = 10
     learning_rate = 1e-4
     loss_fn = torch.nn.CrossEntropyLoss
     num_cpu_workers = os.cpu_count()
@@ -44,9 +44,15 @@ if __name__ == "__main__":
         'batch_size': batch_size,
         'test_batch_size': test_batch_size,
         'epochs': num_epochs,
-        'lr': learning_rate,
         'loss_fn': loss_fn,
-        'optimizer_name': optimizer
+        'optimizer_name': 'Adam',
+        'amsgrad': optimizer.param_groups[0]['amsgrad'],
+        'betas': optimizer.param_groups[0]['betas'],
+        'capturable': optimizer.param_groups[0]['capturable'],
+        'eps': optimizer.param_groups[0]['eps'],
+        'maximize': optimizer.param_groups[0]['maximize'],
+        'weight_decay': optimizer.param_groups[0]['weight_decay'],
+        'learning_rate': optimizer.param_groups[0]['lr']
     }
 
     train(model, train_dl, val_dl, test_dl,

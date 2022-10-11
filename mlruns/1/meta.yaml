@@ -1,0 +1,6 @@
+artifact_location: file:///home/garbage-mlflow-tracking/mlruns/1
+creation_time: 1665493332404
+experiment_id: '1'
+last_update_time: 1665493332404
+lifecycle_stage: active
+name: experiment_efficientnet_b0_1
