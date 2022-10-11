@@ -2,7 +2,8 @@ import os
 import torch
 from torchinfo import summary
 from torch.optim import Adam
-from GarbageEffNetB0 import GarbageEffNetB0
+from models.GarbageEffNetB0 import GarbageEffNetB0
+from models.GarbageEffNetB7 import GarbageEffNetB7
 from utils.training import *
 from data.data_lib import *
 
@@ -26,7 +27,7 @@ if __name__ == "__main__":
     loss_fn = torch.nn.CrossEntropyLoss
     num_cpu_workers = os.cpu_count()
     optimizer = Adam(params=model.parameters(), lr=learning_rate)
-    experiment_name = f"experiment_{model.model_backbone}_1"
+    experiment_name = "garbage_classification"
 
     train_dl, val_dl, test_dl = dataloaders(train_dir=train_dir,
                                             val_dir=val_dir,
@@ -56,12 +57,12 @@ if __name__ == "__main__":
     }
 
     train(model, train_dl, val_dl, test_dl,
-          model_path="track/model",
+          model_dir="track/logs",
           experiment=experiment_name,
           device=device,
-          epochs=parameters['epochs'],
-          optimizer=optimizer,
+          epochs=num_epochs,
           loss_fn=loss_fn,
+          optimizer=optimizer,
           parameters=parameters)
 
     print("Training End!")

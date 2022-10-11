@@ -3,6 +3,8 @@ import shutil
 import time
 import torch
 import mlflow
+import mlflow.pytorch
+from mlflow import MlflowClient
 from tqdm.auto import tqdm
 from timeit import default_timer as timer
 
@@ -56,7 +58,7 @@ def train(model: torch.nn.Module,
           train_dataloader: torch.utils.data.DataLoader,
           val_dataloader: torch.utils.data.DataLoader,
           test_dataloader: torch.utils.data.DataLoader,
-          model_path,
+          model_dir,
           experiment,
           device,
           epochs: int,
@@ -71,7 +73,7 @@ def train(model: torch.nn.Module,
         current_experiment = dict(mlflow.get_experiment_by_name(experiment))
         experiment_id = current_experiment['experiment_id']
 
-    with mlflow.start_run(experiment_id=experiment_id):
+    with mlflow.start_run(experiment_id=experiment_id) as run:
         start_time = timer()
         t0 = time.time()
         for epoch in tqdm(range(epochs)):
@@ -100,13 +102,13 @@ def train(model: torch.nn.Module,
             }, step=epoch)
 
             if epoch == 0:
-                shutil.rmtree(model_path, ignore_errors=True)
-                os.makedirs(model_path, exist_ok=False)
+                shutil.rmtree(model_dir, ignore_errors=True)
+                os.makedirs(model_dir, exist_ok=False)
 
-                with open(f"{model_path}/train_logs.csv", 'w', newline='\n', encoding='utf-8') as file:
+                with open(f"{model_dir}/train_logs.csv", 'w', newline='\n', encoding='utf-8') as file:
                     file.write("train_loss,train_acc,val_loss,val_acc\n")
 
-            with open(f"{model_path}/train_logs.csv", 'a', newline='\n', encoding='utf-8') as file:
+            with open(f"{model_dir}/train_logs.csv", 'a', newline='\n', encoding='utf-8') as file:
                 file.write(f'{train_loss:.4f},{train_accuracy:.4f},{val_loss:.4f},{val_accuracy:.4f}\n')
       
         end_time = timer()
@@ -119,11 +121,20 @@ def train(model: torch.nn.Module,
             "test_accuracy": test_accuracy,
             "time": end_time - start_time
         })
-        
         mlflow.log_params(parameters)
-        
-        mlflow.pytorch.log_state_dict(model.state_dict(),'final_state_dict')
+
+        mlflow.pytorch.log_state_dict(model.state_dict(),'best_state_dict')
         mlflow.pytorch.log_model(model, 'final_model')
-        mlflow.log_artifact(model_path, 'data_artifact')
+        scripted_pytorch_model = torch.jit.script(model)  
+        mlflow.pytorch.log_model(scripted_pytorch_model, "scripted_model") 
+
+        mlflow.log_artifact('train_logs.csv')
 
         mlflow.end_run()
+
+    # Fetch the logged model artifacts  
+    print("run_id: {}".format(run.info.run_id))  
+    for artifact_path in ["final_model/data", "scripted_model/data"]:  
+        artifacts = [f.path for f in MlflowClient().list_artifacts(run.info.run_id,  
+                    artifact_path)]  
+        print("artifacts: {}".format(artifacts)) 
