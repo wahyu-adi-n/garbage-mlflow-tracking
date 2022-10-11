@@ -1,3 +1,4 @@
+import os
 import torch
 from torchinfo import summary
 from pathlib import Path
@@ -10,7 +11,7 @@ if __name__ == "__main__":
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
     create_data = create_dir_extract()
-    # split_data = split_data('data/dataset/garbage', 'data/dataset/output')
+    split_data = split_data('data/dataset/garbage', 'data/dataset/output')
 
     # train-val-test dir
     train_dir = 'data/dataset/output/train'
@@ -27,7 +28,8 @@ if __name__ == "__main__":
     criterion = torch.nn.CrossEntropyLoss
     optimizer = Adam(params=model.parameters(), lr=learning_rate)
     experiment_name = f"{model.model_backbone}_experiment_1"
-
+    num_cpu_workers = os.cpu_count()
+ 
     train_dl, val_dl, test_dl = dataloaders(train_dir,
                                             val_dir,
                                             test_dir,
@@ -44,7 +46,8 @@ if __name__ == "__main__":
         'optimizer_name': 'Adam',
         'batch_size': batch_size,
         'test_batch_size': test_batch_size,
-        'device': device
+        'device': device,
+        'num_cpu_workers': num_cpu_workers
     }
 
     train(model, train_dl, val_dl, test_dl,
