@@ -1,5 +1,5 @@
-/track/model
-/mlruns
+# /mlruns
 __pycache__
-/data/dataset/garbage
 garbage.zip
+*.pth
+*.pt
