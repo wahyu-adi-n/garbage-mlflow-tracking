@@ -1,6 +1,0 @@
-artifact_location: file:///F:/MI%20PROJ/machine-learning-projects/mlflow-practicum/garbage-mlflow/mlruns/1
-creation_time: 1665426452986
-experiment_id: '1'
-last_update_time: 1665426452986
-lifecycle_stage: active
-name: efficientnet_b0_experiment
