@@ -1,4 +1,5 @@
 import os
+import shutil
 import time
 import torch
 import mlflow
@@ -97,6 +98,16 @@ def train(model: torch.nn.Module,
                 'val_loss': val_loss,
                 'val_acc': val_accuracy,
             }, step=epoch)
+
+            if epoch == 0:
+                shutil.rmtree(model_path, ignore_errors=True)
+                os.makedirs(model_path, exist_ok=False)
+
+                with open(f"{model_path}/train_logs.csv", 'w', newline='\n', encoding='utf-8') as file:
+                    file.write("train_loss,train_acc,val_loss,val_acc\n")
+
+            with open(f"{model_path}/train_logs.csv", 'a', newline='\n', encoding='utf-8') as file:
+                file.write(f'{train_loss:.4f},{train_accuracy:.4f},{val_loss:.4f},{val_accuracy:.4f}\n')
       
         end_time = timer()
         test_loss, test_accuracy = val_step(model=model,
