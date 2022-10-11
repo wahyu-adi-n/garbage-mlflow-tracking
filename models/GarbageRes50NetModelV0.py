@@ -2,11 +2,12 @@ import torch
 from torchvision import models
 from torch import nn
 
-class GarbageEffNetModelV0(nn.Module):
+
+class GarbageRes50NetModelV0(nn.Module):
     def __init__(self,
-                 pretrained=models.efficientnet_b0(weights='IMAGENET1K_V1'), num_classes=5):
-        super(GarbageEffNetModelV0, self).__init__()
-        self.model_backbone = 'efficientnet_b0'
+                 pretrained=models.resnet50(weights='IMAGENET1K_V1'), num_classes=5):
+        super(GarbageRes50NetModelV0, self).__init__()
+        self.model_backbone = 'resnet_50'
         self.pretrained = pretrained
         self.classifier_layer = torch.nn.Sequential(
             torch.nn.Linear(1280, 256),
