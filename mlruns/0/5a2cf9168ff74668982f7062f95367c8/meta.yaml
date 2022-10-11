@@ -1,0 +1,15 @@
+artifact_uri: file:///home/garbage-mlflow-tracking/mlruns/0/5a2cf9168ff74668982f7062f95367c8/artifacts
+end_time: 1665514600399
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+name: ''
+run_id: 5a2cf9168ff74668982f7062f95367c8
+run_uuid: 5a2cf9168ff74668982f7062f95367c8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1665514486024
+status: 3
+tags: []
+user_id: root
