@@ -48,7 +48,7 @@ if __name__ == "__main__":
     }
 
     train(model, train_dl, val_dl, test_dl,
-          model_path=f"track/model/",
+          model_path=f"track/model",
           experiment=experiment_name,
           device=device,
           epochs=parameters['epochs'],

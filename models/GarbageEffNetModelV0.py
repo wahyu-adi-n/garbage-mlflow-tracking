@@ -2,7 +2,6 @@ import torch
 from torchvision import models
 from torch import nn
 
-
 class GarbageEffNetModelV0(nn.Module):
     def __init__(self,
                  pretrained=models.efficientnet_b0(weights='IMAGENET1K_V1'), num_classes=5):
