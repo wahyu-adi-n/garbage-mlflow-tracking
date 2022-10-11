@@ -128,7 +128,7 @@ def train(model: torch.nn.Module,
         scripted_pytorch_model = torch.jit.script(model)  
         mlflow.pytorch.log_model(scripted_pytorch_model, "scripted_model") 
 
-        mlflow.log_artifact('train_logs.csv')
+        mlflow.log_artifact(f'{model_dir}/train_logs.csv')
 
         mlflow.end_run()
 
