@@ -1,0 +1,16 @@
+artifact_uri: file:///F:/MI%20PROJ/machine-learning-projects/mlflow-practicum/garbage-mlflow-tracking/mlruns/2/d9d8bda6a4bc4c01b20bc920f278d3e5/artifacts
+deleted_time: null
+end_time: null
+entry_point_name: ''
+experiment_id: '2'
+lifecycle_stage: active
+name: ''
+run_id: d9d8bda6a4bc4c01b20bc920f278d3e5
+run_uuid: d9d8bda6a4bc4c01b20bc920f278d3e5
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1665464032627
+status: 1
+tags: []
+user_id: ADI-PC
