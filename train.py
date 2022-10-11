@@ -4,6 +4,7 @@ from torchinfo import summary
 from torch.optim import Adam
 from models.GarbageEffNetB0 import GarbageEffNetB0
 from models.GarbageEffNetB7 import GarbageEffNetB7
+from models.GarbageResNet50 import GarbageResNet50
 from utils.training import *
 from data.data_lib import *
 
@@ -16,7 +17,7 @@ if __name__ == "__main__":
     val_dir = 'data/dataset/output/val'
     test_dir = 'data/dataset/output/test'
 
-    model = GarbageEffNetB7()
+    model = GarbageResNet50()
     summary(model)
 
     # hyperparameter
