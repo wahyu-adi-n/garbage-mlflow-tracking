@@ -1,5 +1,9 @@
-from GarbageEffNetModelV0 import GarbageEffNetModelV0
+from GarbageEffNetB0 import GarbageEffNetB0
+from GarbageEffNetB7 import GarbageEffNetB7
 from torchinfo import summary
 
-model_0 = GarbageEffNetModelV0()
-summary(model_0)
+effnet_b0 = GarbageEffNetB0()
+summary(effnet_b0)
+
+effnet_b7 = GarbageEffNetB7()
+summary(effnet_b7)

@@ -2,20 +2,20 @@ import os
 import torch
 from torchinfo import summary
 from torch.optim import Adam
-from models.GarbageEffNetModelV0 import GarbageEffNetModelV0
+from GarbageEffNetB0 import GarbageEffNetB0
 from utils.training import *
 from data.data_lib import *
 
 if __name__ == "__main__":
     device = "cuda" if torch.cuda.is_available() else "cpu"
     create_dir_extract()
-    split_data = split_data('data/dataset/garbage', 'data/dataset/output')
+    split_data('data/dataset/garbage', 'data/dataset/output')
 
     train_dir = 'data/dataset/output/train'
     val_dir = 'data/dataset/output/val'
     test_dir = 'data/dataset/output/test'
 
-    model = GarbageEffNetModelV0()
+    model = GarbageEffNetB0()
     summary(model)
 
     # hyperparameter
