@@ -1,26 +1,15 @@
 # Mlflow Tracking: Garbage Classification
 
-## MNIST example with MLFlow
-In this example, we train a Pytorch Lightning model to predict handwritten digits, leveraging early stopping.
-The code, adapted from this [repository](https://github.com/PyTorchLightning/pytorch-lightning/blob/master/pl_examples/basic_examples/mnist.py), is almost entirely dedicated to model training, with the addition of a single ``mlflow.pytorch.autolog()`` call to enable automatic logging of params, metrics, and models,
-including the best model from early stopping.
+In this example, we train a Pytorch model to predict or classifcy garbage/trash.
 
 ### Running the code
-To run the example via MLflow, navigate to the `mlflow/examples/pytorch/MNIST` directory and run the command
+To run the example via MLflow, navigate to the `garbage-mlflow-tracking` directory and run the command
 
 ```
 mlflow run .
 ```
 
-This will run `mnist_autolog_example.py` with the default set of parameters such as  `--max_epochs=5`. You can see the default value in the `MLproject` file.
-
-In order to run the file with custom parameters, run the command
-
-```
-mlflow run . -P max_epochs=X
-```
-
-where `X` is your desired value for `max_epochs`.
+This will run `train.py` with the default set of parameters such as  `--max_epochs=5`. You can see the default value in the `MLproject` file.
 
 If you have the required modules for the file and would like to skip the creation of a conda environment, add the argument `--env-manager=local`.
 
@@ -39,9 +28,6 @@ mlflow ui
 and navigating to [http://localhost:5000](http://localhost:5000).
 
 For more details on MLflow tracking, see [the docs](https://www.mlflow.org/docs/latest/tracking.html#mlflow-tracking).
-
-
-
 
 ### Passing custom training parameters
 
@@ -63,6 +49,7 @@ For example:
 ```
 mlflow run . -P max_epochs=5 -P gpus=1 -P batch_size=32 -P num_workers=2 -P learning_rate=0.01 -P strategy="ddp" -P patience=5 -P mode="min" -P monitor="val_loss" -P verbose=True
 ```
+
 
 Or to run the training script directly with custom parameters:
 ```
