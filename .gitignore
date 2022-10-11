@@ -1,5 +1,2 @@
-# /mlruns
 __pycache__
 garbage.zip
-*.pth
-*.pt
