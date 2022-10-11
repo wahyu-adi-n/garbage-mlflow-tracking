@@ -129,6 +129,7 @@ def train(model: torch.nn.Module,
         mlflow.pytorch.log_model(scripted_pytorch_model, "scripted_model") 
 
         mlflow.log_artifact(f'{model_dir}/train_logs.csv')
+        print(mlflow.get_artifact_uri())
 
         mlflow.end_run()
 
