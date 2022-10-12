@@ -18,12 +18,12 @@ if __name__ == "__main__":
     val_dir = 'data/dataset/output/val'
     test_dir = 'data/dataset/output/test'
 
-    model = TinyVGG()
+    model = GarbageResNet50()
     summary(model)
 
     # hyperparameter
-    batch_size = 32
-    test_batch_size = 32
+    batch_size = 16
+    test_batch_size = 16
     num_epochs = 5
     learning_rate = 1e-4
     loss_fn = torch.nn.CrossEntropyLoss
